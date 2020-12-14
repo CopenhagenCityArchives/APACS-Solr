@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+  solr:
+    container_name: solr
+    image: 282251075226.dkr.ecr.eu-west-1.amazonaws.com/apacs-solr:latest
+    ports: 
+      - "80:8983"
+    volumes:
+        - solr-data:/var/solr
+    command: solr-precreate apacs_core /opt/solr/server/solr/configsets/apacs-config
+    env_file:
+      - .env
+  indexer:
+    container_name: indexer
+    image: 282251075226.dkr.ecr.eu-west-1.amazonaws.com/apacs-indexer:latest
+    env_file:
+      - .env
+volumes:
+  solr-data:

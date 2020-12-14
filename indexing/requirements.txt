@@ -1,0 +1,8 @@
+pysolr==3.8.1
+pymysql
+datetime
+urllib3
+requests
+boto3
+schedule
+python-dotenv

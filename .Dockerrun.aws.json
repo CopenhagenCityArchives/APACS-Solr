@@ -1,0 +1,29 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "volumes": [
+
+    ],
+    "containerDefinitions": [
+        {
+            "name": "solr",
+            "image": "solr:6.6.6",
+            "essential": true,
+            "memory": 1024,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 8983
+                }
+            ]
+        },
+        {
+            "name": "indexer",
+            "image": "282251075226.dkr.ecr.eu-west-1.amazonaws.com/apacs-indexer:latest",
+            "essential": false,
+            "memory": 128,
+            "links": [
+                "solr"
+            ]
+        }
+    ]
+}

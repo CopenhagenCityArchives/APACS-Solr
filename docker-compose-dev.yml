@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+  solr:
+    container_name: solr
+    build:
+      context: ./infrastructure/solr
+      dockerfile: Dockerfile 
+    ports: 
+      - "8080:8983"
+  indexer:
+    container_name: indexer
+    build:
+      context: .
+      dockerfile: ./infrastructure/indexing/Dockerfile_dev
