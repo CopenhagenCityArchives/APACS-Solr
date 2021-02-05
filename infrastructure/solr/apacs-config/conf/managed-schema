@@ -168,7 +168,7 @@
   <!-- Singlevalue fields -->
   <field name="adressOutsideCph" type="string_ci" indexed="true" stored="true" required="false" multiValued="false"/>
   <field name="ageYears" type="pint" indexed="true" stored="true" required="false" multiValued="false"/>
-  <field name="ageMonth" type="pint" indexed="true" stored="true" required="false" multiValued="false"/>
+  <field name="ageMonth" type="pfloat" indexed="true" stored="true" required="false" multiValued="false"/>
   <field name="record_number" type="pint" indexed="true" stored="true" required="false" multiValued="false"/>
   <field name="chapel" type="string_ci" indexed="true" stored="true" required="false" multiValued="false"/>
   <field name="parish" type="string_ci" indexed="true" stored="true" required="false" multiValued="false"/>
