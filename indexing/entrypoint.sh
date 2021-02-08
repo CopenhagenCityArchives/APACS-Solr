@@ -9,7 +9,7 @@ echo "0 1 * * 0,2-6 INDEX_DELETE=false root /usr/src/app/cron.sh >> /var/log/cro
 # This extra line makes it a valid cron" > scheduler.txt
 
 echo "scheduler.txt: "
-cat sceduler.txt
+cat scheduler.txt
 
 crontab scheduler.txt
 
