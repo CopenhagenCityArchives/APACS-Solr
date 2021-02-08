@@ -16,7 +16,7 @@ apacs/lib/config/config.php
 mysql.log
 apacs/app/exceptions.log
 old_server_setups
-
+from-container
 
 # Elastic Beanstalk Files
 
