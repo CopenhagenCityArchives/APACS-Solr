@@ -1,15 +1,22 @@
 FROM python:3
 
-WORKDIR /usr/src/app
-
 # Install cron
 RUN apt-get update
 RUN apt-get install -y cron
 
+# Copy code to /usr/src/app
+RUN mkdir /usr/src/app
+COPY ./indexing/ /usr/src/app
+WORKDIR /usr/src/app
+
 # Install requirements
-COPY ./indexing/ ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-RUN crontab /usr/src/app/crontab
-RUN chmod +x ./cron.sh
-ENTRYPOINT echo "Indexer started at:" && date && cron && tail -f /dev/null
+# Change cron log settings (show all)
+RUN echo 'EXTRA_OPTS="-L 5"' >> /etc/default/cron
+
+# Make cron.sh and entrypoint.sh runable
+RUN chmod +x /usr/src/app/cron.sh /usr/src/app/entrypoint.sh
+
+# Add entrypoint.sh as entrypoint
+ENTRYPOINT /usr/src/app/entrypoint.sh
