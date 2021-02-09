@@ -6,3 +6,4 @@ requests
 boto3
 schedule
 python-dotenv
+pathlib
