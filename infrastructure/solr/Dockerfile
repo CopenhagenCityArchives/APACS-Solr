@@ -13,6 +13,6 @@ COPY apacs-config /opt/solr/server/solr/configsets/apacs-config
 COPY --chown=solr:solr security.json /var/solr/data/security.json
 
 # Copy Banana dashboard data
-COPY banana-int /var/solr/banana-int
+COPY --chown=solr:solr banana-int /var/solr/data/banana-int
 
 ENTRYPOINT ["bash", "-c", "precreate-core banana-int; precreate-core apacs_core /opt/solr/server/solr/configsets/apacs-config; exec solr start -f"]
