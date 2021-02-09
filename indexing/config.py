@@ -2,10 +2,14 @@
 # -*- coding: utf-8 -*-
 import os
 from pathlib import Path  # python3 only
-#from dotenv import load_dotenv
+from dotenv import load_dotenv
 
-#env_path = Path('/usr/src/app/env.cfg')
-#load_dotenv(dotenv_path=env_path, verbose=True)
+
+conf_file = Path('/usr/src/app/env.txt')
+if conf_file.exists() and conf_file.stat().st_size > 0:
+    print("Using local env file")
+    load_dotenv(dotenv_path=conf_file, verbose=True)
+
 
 if os.getenv('ENVIRONMENT', 'DEV') == 'DEV':
     print("Using development settings.")
