@@ -3,7 +3,7 @@
         "class": "solr.BasicAuthPlugin",
         "blockUnknown": false,
         "credentials": {
-            "***REMOVED***": "{solr-hashed-password}"
+            "kbharkiv": "{solr-hashed-password}"
         }
     },
     "authorization": {
@@ -51,7 +51,7 @@
             }
         ],
         "user-role": {
-            "***REMOVED***": "admin"
+            "kbharkiv": "admin"
         }
     }
 }

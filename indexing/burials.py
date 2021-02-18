@@ -267,7 +267,7 @@ ORDER BY burial_persons_positions.order, burial_persons_positions.id ASC
 			'collection_info': person['collection_info'],
 			'updated': person['updated'].isoformat() + "Z" if person['updated'] is not None else None,
 			'created': person['created'].isoformat() + "Z" if person['created'] is not None else None,
-			'kildeviser_url': "https://www.***REMOVED***.dk/kildeviser/#!?collection=5&item=%s" % (person['page_id']),
+			'kildeviser_url': "https://www.kbharkiv.dk/kildeviser/#!?collection=5&item=%s" % (person['page_id']),
 
 			#Person
 			'person_id': person_id,

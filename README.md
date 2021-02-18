@@ -29,8 +29,8 @@ See .env_example for possible settings
 # Development
 ## Branches
 This repository consists at the moment of 3 main branches:
-* ``master``: Used in production at https://api.***REMOVED***.dk
-* ``development``: Used for internal tests at https://api-dev-auth0.***REMOVED***.dk
+* ``master``: Used in production at https://api.kbharkiv.dk
+* ``development``: Used for internal tests at https://api-dev-auth0.kbharkiv.dk
   
 ## API
 All PHP dependencies are installed with Composer, which is run during docker-compose up.
@@ -130,4 +130,4 @@ Indsættes hvis banana-int coren nulstilles, eksempelvis ved rebuild af Solr.
 Husk at lave schemaet om, så dashboard-feltet er string og ikke multivalued (må ikke være et array), EFTER at dokumentet er indsat.
 Indsættes her: https://aws.kbhkilder.dk/solr/#/banana-int
 Statistikken kan ses her: http://kbhkilder.dk/stats/#/dashboard/solr/Brugerstats
-Credentials: ***REMOVED*** og samme kodeord som APACS-databasen.
+Credentials: kbharkiv og samme kodeord som APACS-databasen.

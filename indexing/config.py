@@ -51,7 +51,7 @@ Config = {
         "user": os.getenv("SOLR_USERNAME"),
         "password": os.getenv("SOLR_PASSWORD")
     },
-    "ftp_***REMOVED***": {
+    "ftp_kbharkiv": {
         "url": os.getenv("KBHARKIV_FTP_HOST"),
         "user": os.getenv("KBHARKIV_FTP_USER"),
         "password": os.getenv("KBHARKIV_FTP_PASSWORD")

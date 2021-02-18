@@ -70,7 +70,7 @@ if __name__ == "__main__":
 			# </urlset> 
 			
 			url = ET.SubElement(root, "url")
-			ET.SubElement(url, "loc").text = "https://www.***REMOVED***.dk/permalink/post/" + d['id']
+			ET.SubElement(url, "loc").text = "https://www.kbharkiv.dk/permalink/post/" + d['id']
 			ET.SubElement(url, "lastmod").text = d['updated'][0:10]
 			ET.SubElement(url, "changefreq").text = 'monthly'
 			ET.SubElement(url, "priority").text = '0.8'
@@ -103,7 +103,7 @@ if __name__ == "__main__":
 	i = 1
 	while i < docNum:
 		sm = ET.SubElement(root, "sitemap")
-		ET.SubElement(sm, "loc").text = "https://***REMOVED***.dk/sitemap_persons_{0}.xml".format(i)
+		ET.SubElement(sm, "loc").text = "https://kbharkiv.dk/sitemap_persons_{0}.xml".format(i)
 		ET.SubElement(sm, "lastmod").text = now
 		i = i+1
 
@@ -113,7 +113,7 @@ if __name__ == "__main__":
 	tree.write("metasitemap_persons.xml")
 
 	writeflush("connecting to FTP server")
-	session = ftplib.FTP(Config['ftp_***REMOVED***']['url'],Config['ftp_***REMOVED***']['user'],Config['ftp_***REMOVED***']['password'])
+	session = ftplib.FTP(Config['ftp_kbharkiv']['url'],Config['ftp_kbharkiv']['user'],Config['ftp_kbharkiv']['password'])
 	session.cwd('/public_html')
 
 	writeflush("uploading meta sitemap")
@@ -139,7 +139,7 @@ if __name__ == "__main__":
 
 	#Notify Google of new sitemap
 	writeflush("notifying Google")
-	contents = urllib.request.urlopen("http://google.com/ping?sitemap=https://***REMOVED***.dk/metasitemap_persons.xml").read()
+	contents = urllib.request.urlopen("http://google.com/ping?sitemap=https://kbharkiv.dk/metasitemap_persons.xml").read()
 	print(contents)
 	# on error:
 	#SNS_Notifier.error(repr(e))
