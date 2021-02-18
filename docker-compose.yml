@@ -8,6 +8,8 @@ services:
       - "80:8983"
     volumes:
         - solr-data:/var/solr
+    env_file: 
+      - .env        
     mem_limit: 1024m
     command: solr-precreate apacs_core /opt/solr/server/solr/configsets/apacs-config
   indexer:

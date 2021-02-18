@@ -15,4 +15,4 @@ COPY --chown=solr:solr security.json /var/solr/data/security.json
 # Copy Banana dashboard data
 COPY --chown=solr:solr banana-int /var/solr/data/banana-int
 
-ENTRYPOINT ["bash", "-c", "precreate-core banana-int; precreate-core apacs_core /opt/solr/server/solr/configsets/apacs-config; exec solr start -f"]
+ENTRYPOINT ["bash", "-c", "precreate-core banana-int; precreate-core apacs_core /opt/solr/server/solr/configsets/apacs-config; sed -i \"s/{solr-hashed-password}/${SOLR_HASHED_PASSWORD}/g\" /var/solr/data/security.json; exec solr start -f"]
