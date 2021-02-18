@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   solr:
-    container_name: solr:8.7
+    container_name: solr
     image: 282251075226.dkr.ecr.eu-west-1.amazonaws.com/apacs-solr:{image-tag}
     ports: 
       - "80:8983"
