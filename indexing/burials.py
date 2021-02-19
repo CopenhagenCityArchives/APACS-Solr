@@ -7,6 +7,7 @@ from base import IndexerBase
 import pymysql
 import sys
 import json
+from datetime import datetime
 
 
 class BurialIndexer(IndexerBase):
@@ -249,6 +250,9 @@ ORDER BY burial_persons_positions.order, burial_persons_positions.id ASC
 			yearOfDeath = None
 			dateOfDeath = None
 
+		updatedDateTimeISO = person['updated'].isoformat() + "Z" if person['updated'] is not None else None
+		createdDateTimeISO = person['created'].isoformat() + "Z" if person['created'] is not None else None
+
 		# json object
 		data = {
 			'id': "%d-%d" % (self.collection_id(), person_id),
@@ -265,8 +269,8 @@ ORDER BY burial_persons_positions.order, burial_persons_positions.id ASC
 			'page_number' : person['page_number'],
 			'collection_id': self.collection_id(),
 			'collection_info': person['collection_info'],
-			'updated': person['updated'].isoformat() + "Z" if person['updated'] is not None else None,
-			'created': person['created'].isoformat() + "Z" if person['created'] is not None else None,
+			'updated': updatedDateTimeISO,
+			'created': createdDateTimeISO,
 			'kildeviser_url': "https://www.kbharkiv.dk/kildeviser/#!?collection=5&item=%s" % (person['page_id']),
 
 			#Person
@@ -322,8 +326,8 @@ ORDER BY burial_persons_positions.order, burial_persons_positions.id ASC
 			'unit_id': person['unit_id'],
 			'unit_description' : person['unit_description'],
 			'page_id': person['page_id'],
-			'updated': f"{person['updated'].date().isoformat()}T00:00:00Z" if person['updated'] is not None else None,
-			'created': f"{person['created'].date().isoformat()}T00:00:00Z" if person['created'] is not None else None,
+			'updated': updatedDateTimeISO,
+			'created': createdDateTimeISO,
 			'collection_id': self.collection_id(),
 			'collection_info': person['collection_info'],
 			'jsonObj': json.dumps(data),
