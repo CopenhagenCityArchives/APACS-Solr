@@ -216,6 +216,8 @@ ORDER BY ps.person_stilling_id ASC
         valid_deathdate = self.valid_date(person["year_of_death"], person['month_of_death'], person['day_of_death'])
         valid_completion_date = self.valid_date(person['completion_year'], person['completion_month'], person['completion_day'])
 
+        updatedDateTimeISO = datetime.strptime(person['last_changed'], '%Y-%m-%d').isoformat() + "Z" if person['last_changed'] is not None and person['last_changed'] != "" else None
+
         # json object
         data = {
             'id': "%d-%d" % (self.collection_id(), person_id),
@@ -243,7 +245,7 @@ ORDER BY ps.person_stilling_id ASC
             "file_back": person["file_back"],
             "collection_id": self.collection_id(),
             "collection_info": 'Politiets registerblade',
-            'last_changed': person['last_changed']
+            'last_changed': updatedDateTimeISO
         }
         if person["person_type"] == 3 and card['main'] is not None:
             data['parent'] = {
@@ -325,7 +327,9 @@ ORDER BY ps.person_stilling_id ASC
             'spousePositions': list(reduce(lambda positions, spouse: positions + (spouse['positions'] if 'positions' in spouse else []), card['spouses'], [])) if person['person_type'] == 1 else [],
             'comments': ([person['person_comment']] if 'person_comment' in person else []) + list(filter(lambda n: n is not None, map(lambda address: address.get('adr_comment'), card.get('addresses') or []))) + ([person['registerblad_comment']] if 'registerblad_comment' in person else []) + ([] if person['special_remarks'] is None else [person['special_remarks']]),
             'adr_to_note': list(map(lambda address: address['to_note'], card['addresses'])) if person['person_type'] == 1 and 'addresses' in card else [],
-            'adr_from_note': list(map(lambda address: address['from_note'], card['addresses'])) if person['person_type'] == 1 and 'addresses' in card else []
+            'adr_from_note': list(map(lambda address: address['from_note'], card['addresses'])) if person['person_type'] == 1 and 'addresses' in card else [],
+            'updated': updatedDateTimeISO,
+            'created': updatedDateTimeISO
         })
 
 
