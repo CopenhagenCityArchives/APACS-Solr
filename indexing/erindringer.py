@@ -38,7 +38,8 @@ class ErindringerIndexer(IndexerBase):
         self.log("Creating index of transcribed...")
         self.transcribed = {}
         for erindring in self.cip.searchall(Config['cumulus']['catalog'], view=Config['cumulus']['catalog'], querystring="Offentlig == true && 'Related Master Assets' * && Samlingsnavn == 'Erindring'"):
-            self.transcribed[erindring['Erindringsnummer']] = erindring
+            if erindring['Erindringsnummer'] is not None:
+                self.transcribed[erindring['Erindringsnummer']] = erindring
         self.log(f"OK. Created index of {len(self.transcribed)} transcribed.")
 
 
@@ -121,7 +122,7 @@ class ErindringerIndexer(IndexerBase):
             "erindring_spouse_position": erindring.get(u'Stilling ægtefælle'),
             "erindring_handwritten_typed": erindring.get(u'Håndskrevne/maskinskreven'),
             "erindring_description": erindring.get('Description'),
-            "erindring_number": erindring.get('Erindringsnummer'),
+            "erindring_number": erindring['Erindringsnummer'] if erindring['Erindringsnummer'] is not None else None,
             "erindring_period": erindring.get('Periode'),
             "collected_year": erindring.get(u"Indsamlingsår"),
             "erindring_extent": erindring.get('Omfang'),
