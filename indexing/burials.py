@@ -43,7 +43,6 @@ burial_addresses.streets_id as 'burial_addresses.streets_id',
 burial_addresses.number as 'burial_addresses.number',
 burial_addresses.letter as 'burial_addresses.letter',
 burial_addresses.floors_id as 'burial_addresses.floors_id',
-burial_addresses.persons_id as 'burial_addresses.persons_id',
 burial_addresses.institutions_id as 'burial_addresses.institutions_id',
 burial_floors.id as 'burial_floors.id',
 burial_floors.floor as 'burial_floors.floor',
@@ -63,7 +62,6 @@ burial_burials.id as 'burial_burials.id',
 burial_burials.cemetaries_id as 'burial_burials.cemetaries_id',
 burial_burials.chapels_id as 'burial_burials.chapels_id',
 burial_burials.parishes_id as 'burial_burials.parishes_id',
-burial_burials.persons_id as 'burial_burials.persons_id',
 burial_burials.number as 'burial_burials.number',
 burial_cemetaries.id as 'burial_cemetaries.id',
 burial_cemetaries.cemetary as 'burial_cemetaries.cemetary',
@@ -98,13 +96,13 @@ LastUpdateUsers.username as last_update_user_name,
 LastUpdateUsers.id as last_update_user_id
 
 FROM burial_persons
-LEFT JOIN burial_addresses ON burial_addresses.persons_id = burial_persons.id
+LEFT JOIN burial_addresses ON burial_addresses.id = burial_persons.addresses_id
 LEFT JOIN burial_floors ON burial_floors.id = burial_addresses.floors_id
 LEFT JOIN burial_streets ON burial_streets.id = burial_addresses.streets_id
 LEFT JOIN burial_hoods ON burial_hoods.id = burial_streets.hoods_id
 LEFT JOIN burial_institutions ON burial_institutions.id = burial_addresses.institutions_id
 LEFT JOIN burial_birthplaces ON burial_birthplaces.id = burial_persons.birthplaces_id
-LEFT JOIN burial_burials ON burial_burials.persons_id = burial_persons.id
+LEFT JOIN burial_burials ON burial_burials.id = burial_persons.burials_id
 LEFT JOIN burial_cemetaries ON burial_cemetaries.id = burial_burials.cemetaries_id
 LEFT JOIN burial_chapels ON burial_chapels.id = burial_burials.chapels_id
 LEFT JOIN burial_parishes ON burial_parishes.id = burial_burials.parishes_id
