@@ -90,9 +90,9 @@ Entries.updated as updated,
 Entries.created as created,
 Entries.id as entries_id,
 Entries.concrete_entries_id,
-Users.username as user_name,
+SUBSTRING_INDEX(Users.username, "@",1) as user_name,
 Users.id as user_id,
-LastUpdateUsers.username as last_update_user_name,
+SUBSTRING_INDEX(LastUpdateUsers.username, "@",1) as last_update_user_name,
 LastUpdateUsers.id as last_update_user_id
 
 FROM burial_persons
