@@ -301,13 +301,13 @@ ORDER BY ps.id ASC
 
         self.documents.append({
             'id': "%d-%d" % (self.collection_id(), person_id),
-            'task_id': person['task_id'],
-            'post_id': person['post_id'],
-            'entry_id': person['entry_id'],
+            'task_id': person['task_id'] or -1,
+            'post_id': person['post_id'] or -1,
+            'entry_id': person['entry_id'] or -1,
             'user_id': -1,
             'user_name': ' ',
-            'unit_id': person['unit_id'],
-            'page_id': person['page_id'],
+            'unit_id': person['unit_id'] or -1,
+            'page_id': person['page_id'] or -1,
             'jsonObj': json.dumps(data),
             'collection_id': self.collection_id(),
             'collection_info': self.collection_info(),
