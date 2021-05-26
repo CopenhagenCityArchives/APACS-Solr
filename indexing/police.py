@@ -228,6 +228,7 @@ ORDER BY ps.id ASC
 			'task_id': person['task_id'],
 			'post_id': person['post_id'],
 			'entry_id': person['entry_id'],
+            'page_id': person['page_id'],
 			'user_id': -1,
             'registerblad_id': person['registerblad_id'],
             'firstnames': person['firstnames'],
