@@ -225,6 +225,10 @@ ORDER BY ps.id ASC
         # json object
         data = {
             'id': "%d-%d" % (self.collection_id(), person_id),
+			'task_id': person['task_id'],
+			'post_id': person['post_id'],
+			'entry_id': person['entry_id'],
+			'user_id': -1,
             'registerblad_id': person['registerblad_id'],
             'firstnames': person['firstnames'],
             'lastname': person['lastname'],
