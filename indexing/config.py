@@ -28,13 +28,6 @@ Config = {
         "layout": os.getenv("CUMULUS_LAYOUT"),
         "location": os.getenv("CUMULUS_LOCATION")
     },
-    'polle_db' : {
-        "host": os.getenv("POLLE_DB_HOST"),
-        "port": int(os.getenv("POLLE_DB_PORT")),
-        "user": os.getenv("POLLE_DB_USER"),
-        "password": os.getenv("POLLE_DB_PASSWORD"),
-        "database": os.getenv("POLLE_DB_DATABASE")
-    },
     "apacs_db" : {
         "host": os.getenv("APACS_DB_HOST"),
         "port": int(os.getenv("APACS_DB_PORT")),

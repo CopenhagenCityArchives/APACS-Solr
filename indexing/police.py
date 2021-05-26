@@ -20,7 +20,7 @@ class PoliceIndexer(IndexerBase):
         self.person_query = """
 SELECT
     p.registerblad_id,
-    p.person_id,
+    p.id as person_id,
     p.fornavne as firstnames,
     p.efternavn as lastname,
     p.pigenavn as birthname,
@@ -49,14 +49,14 @@ SELECT
     IF(date(p.last_changed) = '000-00-00', "", date(p.last_changed)) as last_changed
 FROM
     PRB_person p
-    LEFT JOIN PRB_registerblad r ON r.registerblad_id = p.registerblad_id
-    LEFT JOIN PRB_foedested fs ON p.foedested_id = fs.foedested_id
-    LEFT JOIN PRB_kommentar rc ON r.registerblad_id = rc.registerblad_id
-    LEFT JOIN PRB_kommentar pc ON p.person_id = pc.person_id
-    LEFT JOIN PRB_station st ON st.station_id = r.station_id
-    LEFT JOIN PRB_filmrulle fr ON fr.filmrulle_id = r.filmrulle_id
-    LEFT JOIN PRB_registerblad_nummerering rn ON rn.registerblad_id = r.registerblad_id
-    ORDER BY p.registerblad_id
+    LEFT JOIN PRB_registerblad r ON r.id = p.registerblad_id
+    LEFT JOIN PRB_foedested fs ON p.foedested_id = fs.id
+    LEFT JOIN PRB_kommentar rc ON r.id = rc.registerblad_id
+    LEFT JOIN PRB_kommentar pc ON p.id = pc.person_id
+    LEFT JOIN PRB_station st ON st.id = r.station_id
+    LEFT JOIN PRB_filmrulle fr ON fr.id = r.filmrulle_id
+    LEFT JOIN PRB_registerblad_nummerering rn ON rn.registerblad_id = r.id
+    ORDER BY p.id
     LIMIT %d, %d
 """
 
@@ -80,7 +80,7 @@ SELECT *, CONCAT(
 FROM
 (SELECT
     a.registerblad_id as card_id,
-    IF(v.vej_id NOT IN ('2636','3003','2772','2637'), TRIM(v.burial_streets_streetAndHood), NULL) as street,
+    IF(v.id NOT IN ('2636','3003','2772','2637'), TRIM(v.burial_streets_streetAndHood), NULL) as street,
     IF(v.burial_institutions_id IS NOT NULL, v.burial_institutions_institution, NULL) as institution,
     IF(a.vejnummer <> "", a.vejnummer, null) as number,
     IF(a.vejnummerbogstav <> "", a.vejnummerbogstav, null) as letter,
@@ -89,20 +89,16 @@ FROM
     IF(a.sted <> "", a.sted, null) as place,
     IF(a.opgang <> "", a.opgang, null) as entrance,
     IF(a.tjenesteLogerendeHos <> "", a.tjenesteLogerendeHos, null) as servant_staying_at,
-    CAST(k.latitude as CHAR) as latitude,
-    CAST(k.longitude as CHAR) as longitude,
     a.adresse_dag as day,
     a.adresse_maaned as month,
     a.adresse_aar as year,
     a.fra_note as from_note,
     a.til_note as to_note,
     a.frameldt as frameldt,
-    CONCAT(k.latitude, ",", k.longitude) as location,
     ko.kommentar as adr_comment
 FROM PRB_adresse a
-LEFT JOIN PRB_vej v ON v.vej_id = a.vej_id
-LEFT JOIN PRB_kommentar ko ON ko.adresse_id = a.adresse_id
-LEFT JOIN PRB_koordinat k ON k.koordinat_id = a.koordinat_id
+LEFT JOIN PRB_vej v ON v.id = a.vej_id
+LEFT JOIN PRB_kommentar ko ON ko.adresse_id = a.id
 WHERE a.registerblad_id IN (%s)) sub ORDER BY year asc, month asc, day asc
 """
 
@@ -114,11 +110,11 @@ SELECT
     s.stilling as position
 FROM
     PRB_person_stilling ps
-    LEFT JOIN PRB_stilling s ON s.stilling_id = ps.stilling_id
+    LEFT JOIN PRB_stilling s ON s.id = ps.stilling_id
     LEFT JOIN PRB_kontrolleret_stilling ks ON s.kontrolleret_stilling_id = ks.kontrolleret_stilling_id
-    LEFT JOIN PRB_person p ON ps.person_id = p.person_id
-WHERE p.person_id IN (%s)
-ORDER BY ps.person_stilling_id ASC
+    LEFT JOIN PRB_person p ON ps.person_id = p.id
+WHERE p.id IN (%s)
+ORDER BY ps.id ASC
 """
 
 
@@ -132,7 +128,7 @@ ORDER BY ps.person_stilling_id ASC
 
     def setup(self):
         self.log("Connecting to MySQL...")
-        self.mysql = pymysql.connect(host=Config['polle_db']['host'], user=Config['polle_db']['user'], password=Config['polle_db']['password'], db=Config['polle_db']['database'], charset='utf8')
+        self.mysql = pymysql.connect(host=Config['apacs_db']['host'], user=Config['apacs_db']['user'], password=Config['apacs_db']['password'], db=Config['apacs_db']['database'], charset='utf8')
         self.log("OK.")
     
 
@@ -323,7 +319,7 @@ ORDER BY ps.person_stilling_id ASC
             'places': list(map(lambda address: address['place'], card['addresses'])) if person['person_type'] == 1 and 'addresses' in card else [],
             'entrances': list(map(lambda address: address['entrance'], card['addresses'])) if person['person_type'] == 1 and 'addresses' in card else [],
             'institutions': list(map(lambda address: address['institution'], card['addresses'])) if person['person_type'] == 1 and 'addresses' in card else [],
-            'locations': list(map(lambda address: address['location'], card['addresses'])) if person['person_type'] == 1 and 'addresses' in card else [],
+            'locations': list( card['addresses'] ) if person['person_type'] == 1 and 'addresses' in card else [],
             'spousePositions': list(reduce(lambda positions, spouse: positions + (spouse['positions'] if 'positions' in spouse else []), card['spouses'], [])) if person['person_type'] == 1 else [],
             'comments': ([person['person_comment']] if 'person_comment' in person else []) + list(filter(lambda n: n is not None, map(lambda address: address.get('adr_comment'), card.get('addresses') or []))) + ([person['registerblad_comment']] if 'registerblad_comment' in person else []) + ([] if person['special_remarks'] is None else [person['special_remarks']]),
             'adr_to_note': list(map(lambda address: address['to_note'], card['addresses'])) if person['person_type'] == 1 and 'addresses' in card else [],
