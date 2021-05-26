@@ -112,12 +112,6 @@ class IndexerBase(ABC):
         # since the stage clearly failed.
         self.log_prefixes.pop()
 
-        # report error
-        sns_message = f"An error occured during indexing of {self.collection_info()}:\n{message}"
-        if entry is not None:
-            sns_message += f"\n{entry}"
-        SNS_Notifier.error(sns_message)
-
         # print to stdout
         type_, value_, traceback_ = sys.exc_info()
         stack = traceback.format_exception(type_, value_, traceback_)
@@ -129,6 +123,16 @@ class IndexerBase(ABC):
         self.log_prefixes.append("stack")
         for line in ("\n".join(stack)).rstrip().split("\n"):
             self.log(line)
+        
+        # report error
+        sns_message = f"An error occured during indexing of {self.collection_info()}:\n{message}"
+        sns_message.append(type(exception).__name__)
+        
+        if entry is not None:
+            sns_message += f"\n{entry}"
+
+        SNS_Notifier.error(sns_message)
+
         sys.exit(1)
 
     def print_progress(self, i):
