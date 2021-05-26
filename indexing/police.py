@@ -18,7 +18,12 @@ class PoliceIndexer(IndexerBase):
         self.count_query = "SELECT COUNT(*) as count FROM PRB_person"
 
         self.person_query = """
-SELECT
+    SELECT
+    ae.tasks_id as task_id,
+    ae.posts_id as post_id,
+    ae.id as entry_id,
+    apost.pages_id as page_id,
+    apage.unit_id as unit_id,
     p.registerblad_id,
     p.id as person_id,
     p.fornavne as firstnames,
@@ -56,7 +61,10 @@ FROM
     LEFT JOIN PRB_station st ON st.id = r.station_id
     LEFT JOIN PRB_filmrulle fr ON fr.id = r.filmrulle_id
     LEFT JOIN PRB_registerblad_nummerering rn ON rn.registerblad_id = r.id
-    ORDER BY p.id
+    LEFT JOIN apacs_entries ae ON ae.concrete_entries_id = r.id
+    LEFT JOIN apacs_posts apost ON ae.posts_id = apost.id
+    LEFT JOIN apacs_pages apage on apost.pages_id = apage.id
+    ORDER BY p.id 
     LIMIT %d, %d
 """
 
@@ -288,13 +296,13 @@ ORDER BY ps.id ASC
 
         self.documents.append({
             'id': "%d-%d" % (self.collection_id(), person_id),
-            'task_id': -1,
-            'post_id': -1,
-            'entry_id': -1,
+            'task_id': person['task_id'],
+            'post_id': person['post_id'],
+            'entry_id': person['entry_id'],
             'user_id': -1,
             'user_name': ' ',
-            'unit_id': -1,
-            'page_id': -1,
+            'unit_id': person['unit_id'],
+            'page_id': person['page_id'],
             'jsonObj': json.dumps(data),
             'collection_id': self.collection_id(),
             'collection_info': self.collection_info(),
