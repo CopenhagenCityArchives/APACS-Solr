@@ -188,8 +188,8 @@
   <field name="personType" type="pint" indexed="true" stored="true" required="false" multiValued="false"/>
   <field name="dateOfBirth" type="pdate" indexed="true" stored="true" required="false" multiValued="false"/>
 
-  <field name="prb_approved" type="boolean" indexed="true" stored="true" required="false" multiValued="false"/>
-  <field name="prb_complete" type="boolean" indexed="true" stored="true" required="false" multiValued="false"/>
+  <field name="prb_approved" type="pint" indexed="true" stored="true" required="false" multiValued="false"/>
+  <field name="prb_complete" type="pint" indexed="true" stored="true" required="false" multiValued="false"/>
   <field name="prb_station" type="string_ci" indexed="true" stored="true" required="false" multiValued="false"/>
   <field name="prb_filmrulle" type="string_ci" indexed="true" stored="true" required="false" multiValued="false"/>
 
