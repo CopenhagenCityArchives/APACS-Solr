@@ -44,6 +44,8 @@ class PoliceIndexer(IndexerBase):
     r.udfyldelse_dag as completion_day,
     r.udfyldelse_maaned as completion_month,
     r.udfyldelse_aar as completion_year,
+    r.approved as prb_approved,
+    r.complete as prb_complete,
     st.nummer as station,
     fr.nummer as film,
     rn.nummer as number,
@@ -337,7 +339,11 @@ ORDER BY ps.id ASC
             'adr_to_note': list(map(lambda address: address['to_note'], card['addresses'])) if person['person_type'] == 1 and 'addresses' in card else [],
             'adr_from_note': list(map(lambda address: address['from_note'], card['addresses'])) if person['person_type'] == 1 and 'addresses' in card else [],
             'updated': updatedDateTimeISO,
-            'created': updatedDateTimeISO
+            'created': updatedDateTimeISO,
+            'prb_approved': person['prb_approved'],
+            'prb_complete': person['prb_complete'],
+            'prb_station': person['station'],
+            'prb_filmrulle': person['film']
         })
 
 
