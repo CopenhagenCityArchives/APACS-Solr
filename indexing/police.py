@@ -66,6 +66,7 @@ FROM
     LEFT JOIN apacs_entries ae ON ae.concrete_entries_id = r.id
     LEFT JOIN apacs_posts apost ON ae.posts_id = apost.id
     LEFT JOIN apacs_pages apage on apost.pages_id = apage.id
+    WHERE ae.tasks_id = 5
     ORDER BY p.id 
     LIMIT %d, %d
 """
