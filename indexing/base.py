@@ -126,7 +126,7 @@ class IndexerBase(ABC):
         
         # report error
         sns_message = f"An error occured during indexing of {self.collection_info()}:\n{message}"
-        sns_message.append(type(exception).__name__)
+        sns_message += type(exception).__name__
         
         if entry is not None:
             sns_message += f"\n{entry}"
