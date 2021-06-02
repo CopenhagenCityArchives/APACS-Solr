@@ -154,7 +154,7 @@ ORDER BY ps.id ASC
     
 
     def get_entries(self):
-        for _, loaded_persons in self.chunk_query(self.person_query):
+        for _, loaded_persons in self.chunk_query(self.person_query, 100000):
             cards = {}
             persons = {}
             errors = 0
