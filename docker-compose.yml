@@ -11,8 +11,8 @@ services:
     env_file: 
       - .env       
     environment:
-      SOLR_JAVA_MEM: "-Xms2100m -Xmx2100m" 
-    mem_limit: 2800m
+      SOLR_JAVA_MEM: "-Xms2800m -Xmx2800m" 
+    mem_limit: 4000m
     command: solr-precreate apacs_core /opt/solr/server/solr/configsets/apacs-config
   indexer:
     container_name: indexer
