@@ -17,6 +17,10 @@ class PoliceIndexer(IndexerBase):
 
         self.count_query = "SELECT COUNT(*) as count FROM PRB_person"
 
+        # note that it is assumed that persons are ordered by registerblad_id!
+        # (ALTER TABLE PRB_person ORDER BY registerblad_id asc)
+        # otherwise an expensive order by is needed in order to couple
+        # persons on same registerblad while chunking the results in smaller sizes
         self.person_query = """
     SELECT
     ae.tasks_id as task_id,
@@ -67,7 +71,6 @@ FROM
     LEFT JOIN apacs_posts apost ON ae.posts_id = apost.id
     LEFT JOIN apacs_pages apage on apost.pages_id = apage.id
     WHERE ae.tasks_id = 5
-    ORDER BY p.id 
     LIMIT %d, %d
 """
 
