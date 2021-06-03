@@ -120,7 +120,7 @@ LEFT JOIN apacs_tasks as Tasks ON Entries.tasks_id = Tasks.id
 LEFT JOIN apacs_users as Users ON Entries.users_id = Users.id
 LEFT JOIN apacs_users as LastUpdateUsers ON Entries.last_update_users_id = LastUpdateUsers.id
 
-WHERE Entries.tasks_id = 1
+WHERE Entries.tasks_id IN (1,3)
 
 LIMIT %d, %d
 """
