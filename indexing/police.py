@@ -257,7 +257,9 @@ ORDER BY ps.id ASC
             "file_back": person["file_back"],
             "collection_id": self.collection_id(),
             "collection_info": 'Politiets registerblade',
-            'last_changed': updatedDateTimeISO
+            'last_changed': updatedDateTimeISO,
+            "approved": person["prb_approved"],
+            "complete": person["prb_complete"]
         }
         if person["person_type"] == 3 and card['main'] is not None:
             data['parent'] = {
